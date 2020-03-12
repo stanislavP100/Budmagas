@@ -25,7 +25,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.android.sunshine.data.SunshinePreferences;
 import com.example.android.sunshine.utilities.NetworkUtils;
 import com.example.android.sunshine.utilities.OpenWeatherJsonUtils;
 
@@ -39,9 +38,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_forecast);
+        setContentView(R.layout.activity_main);
 
-        mWeatherTextView = (TextView) findViewById(R.id.tv_weather_data);
+        mWeatherTextView = (TextView) findViewById(R.id.rv_numbers);
 
         loadWeatherData();
 
@@ -55,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         private void loadWeatherData() {
 
 
-           // String location = SunshinePreferences.getPreferredWeatherLocation(this);
+
            new WeaterQueryTask().execute("https://chitadrita.herokuapp.com/");
 
         }
@@ -90,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
                 return null;
             }
 
-            String location = params[0];
             URL weatherRequestUrl = NetworkUtils.buildUrl();
 
             try {
@@ -115,6 +113,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String[] strings) {
             if (strings != null) {
+
+                mWeatherTextView.setText("");
 
                 for (String weatherString : strings) {
                     mWeatherTextView.append((weatherString) + "\n");
