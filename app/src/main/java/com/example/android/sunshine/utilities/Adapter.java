@@ -20,9 +20,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.NumberViewHolder> {
 
         private int mNumberItems;
 
-        public Adapter(int numberOfItems) {
-            mNumberItems = numberOfItems;
+        private String [] strings;
 
+        public Adapter(int numberOfItems, String [] strings) {
+            mNumberItems = numberOfItems;
+            this.strings=strings;
             viewHolderCount = 0;
         }
 
@@ -38,7 +40,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.NumberViewHolder> {
             NumberViewHolder viewHolder = new NumberViewHolder(view);
 
 
-            viewHolder.viewHolderIndex.setText("ViewHolder index: " + viewHolderCount);
+            viewHolder.viewHolderIndex.setText(strings[viewHolderCount]);
 
             int backgroundColorForViewHolder = ColorUtils
                     .getViewHolderBackgroundColorFromInstance(context, viewHolderCount);

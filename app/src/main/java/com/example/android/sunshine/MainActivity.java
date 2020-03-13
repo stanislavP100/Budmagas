@@ -15,47 +15,54 @@
  */
 package com.example.android.sunshine;
 
+
 import android.content.Context;
-import android.net.UrlQuerySanitizer;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
+
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
 
+import com.example.android.sunshine.utilities.Adapter;
 import com.example.android.sunshine.utilities.NetworkUtils;
 import com.example.android.sunshine.utilities.OpenWeatherJsonUtils;
-
-import java.io.IOException;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView mWeatherTextView;
+
+    private Adapter mAdapter;
+    private RecyclerView mNumbersList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mWeatherTextView = (TextView) findViewById(R.id.rv_numbers);
+        mNumbersList = (RecyclerView) findViewById(R.id.rv_numbers);
+
+ 
 
         loadWeatherData();
 
-        try{
+//        try{
+//
+//            NetworkUtils.getResponseFromHttpUrl(NetworkUtils.buildUrl());}
+//        catch (Exception ex){}
 
-            NetworkUtils.getResponseFromHttpUrl(NetworkUtils.buildUrl());}
-        catch (Exception ex){}
 
 
     }
+
+
+
         private void loadWeatherData() {
 
-
-
-           new WeaterQueryTask().execute("https://chitadrita.herokuapp.com/");
+        new WeaterQueryTask().execute("https://chitadrita.herokuapp.com/");
 
         }
 
@@ -89,7 +96,8 @@ public class MainActivity extends AppCompatActivity {
                 return null;
             }
 
-            URL weatherRequestUrl = NetworkUtils.buildUrl();
+
+           URL weatherRequestUrl = NetworkUtils.buildUrl();
 
             try {
                 String jsonWeatherResponse = NetworkUtils
@@ -110,15 +118,28 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+
+
         @Override
         protected void onPostExecute(String[] strings) {
+
+            LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
+            mNumbersList.setLayoutManager(layoutManager);
+
+            mAdapter = new Adapter(strings.length,strings);
+            mNumbersList.setAdapter(mAdapter);
+
+
             if (strings != null) {
 
-                mWeatherTextView.setText("");
 
-                for (String weatherString : strings) {
-                    mWeatherTextView.append((weatherString) + "\n");
-                }
+
+
+              //  mWeatherTextView.setText("");
+
+//                for (String weatherString : strings) {
+//                    mWeatherTextView.append((weatherString) + "\n");
+//                }
         }
 
 
