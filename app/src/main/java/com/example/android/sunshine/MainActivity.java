@@ -43,19 +43,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mNumbersList = (RecyclerView) findViewById(R.id.rv_numbers);
-
- 
-
         loadWeatherData();
-
-//        try{
-//
-//            NetworkUtils.getResponseFromHttpUrl(NetworkUtils.buildUrl());}
-//        catch (Exception ex){}
-
-
-
     }
 
 
@@ -122,25 +110,16 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String[] strings) {
+            mNumbersList = (RecyclerView) findViewById(R.id.rv_numbers);
+
+
 
             LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
             mNumbersList.setLayoutManager(layoutManager);
 
-            mAdapter = new Adapter(strings.length,strings);
+            mAdapter = new Adapter(MainActivity.this,strings);
             mNumbersList.setAdapter(mAdapter);
 
-
-            if (strings != null) {
-
-
-
-
-              //  mWeatherTextView.setText("");
-
-//                for (String weatherString : strings) {
-//                    mWeatherTextView.append((weatherString) + "\n");
-//                }
-        }
 
 
         }

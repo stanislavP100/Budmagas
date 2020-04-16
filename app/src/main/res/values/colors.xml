@@ -22,7 +22,6 @@
     <!--Material Greens-->
     <!--In between colors were created with this tool:-->
     <!-- http://meyerweb.com/eric/tools/color-blend/#339999::1:hex -->
-    <color name="material50Green">#E8F5E9</color>
     <color name="material100Green">#C8E6C9</color>
     <color name="material150Green">#B7DEB8</color>
     <color name="material200Green">#A5D6A7</color>

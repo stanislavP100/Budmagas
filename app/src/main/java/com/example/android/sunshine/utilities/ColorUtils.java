@@ -34,8 +34,6 @@ public class ColorUtils {
 
     public static int getViewHolderBackgroundColorFromInstance(Context context, int instanceNum) {
         switch (instanceNum) {
-            case 0:
-                return ContextCompat.getColor(context, R.color.material50Green);
             case 1:
                 return ContextCompat.getColor(context, R.color.material100Green);
             case 2:
