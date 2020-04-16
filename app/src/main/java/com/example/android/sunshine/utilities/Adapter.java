@@ -2,6 +2,7 @@ package com.example.android.sunshine.utilities;
 
 import android.content.ClipData;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 import android.support.v7.widget.RecyclerView;
 
 import com.example.android.sunshine.R;
+
+import java.util.Locale;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.NumberViewHolder> {
 
@@ -33,7 +36,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.NumberViewHolder> {
             viewHolderCount = 0;
         }
 
-
         @Override
         public NumberViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
             Context context = viewGroup.getContext();
@@ -44,18 +46,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.NumberViewHolder> {
             View view = inflater.inflate(layoutIdForListItem, viewGroup, shouldAttachToParentImmediately);
             NumberViewHolder viewHolder = new NumberViewHolder(view);
 
-//            viewHolder.viewHolderIndex.setText(String.valueOf(viewHolderCount));
-//
-//
-//            viewHolder.imageView.setImageResource(R.drawable.perferator);
-//
-//            int backgroundColorForViewHolder = ColorUtils
-//                    .getViewHolderBackgroundColorFromInstance(context, viewHolderCount);
-//            viewHolder.itemView.setBackgroundColor(backgroundColorForViewHolder);
-//
-//            viewHolderCount++;
-//            Log.d(TAG, "onCreateViewHolder: number of ViewHolders created: "
-//                    + viewHolderCount);
+
+            viewHolderCount++;
+
+            System.out.println(viewHolderCount);
+
             return viewHolder;
         }
 
@@ -64,6 +59,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.NumberViewHolder> {
         public void onBindViewHolder(NumberViewHolder holder, int position) {
 
             Log.d(TAG, "#" + position);
+
+            holder.setDetails(strings, position);
 
         }
 
@@ -91,6 +88,10 @@ public class Adapter extends RecyclerView.Adapter<Adapter.NumberViewHolder> {
             }
 
 
+            void setDetails(String [] strings, int p) {
+                viewHolderIndex.setText(strings[p]);
+                imageView.setImageResource(R.drawable.perferator);
+            }
 
         }
 
