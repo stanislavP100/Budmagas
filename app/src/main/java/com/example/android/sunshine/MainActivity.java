@@ -16,8 +16,6 @@
 package com.example.android.sunshine;
 
 
-import android.content.Context;
-
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -38,13 +36,20 @@ public class MainActivity extends AppCompatActivity {
     private Adapter mAdapter;
     private RecyclerView mNumbersList;
 
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.first_page); //activity_main);
 
-        loadWeatherData();
+
+      //  loadWeatherData(); //на first page не праює, до по цепочці все далі грузить а вигружать нема куди (мабуть)
     }
+
 
 
 
@@ -73,6 +78,9 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
 
     public class WeaterQueryTask extends AsyncTask <String, Void, String[]> {
 
@@ -110,9 +118,8 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String[] strings) {
+
             mNumbersList = (RecyclerView) findViewById(R.id.rv_numbers);
-
-
 
             LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
             mNumbersList.setLayoutManager(layoutManager);

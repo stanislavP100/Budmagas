@@ -34,7 +34,7 @@ public final class OpenWeatherJsonUtils {
             throws JSONException {
 
         /* Weather information. Each day's forecast info is an element of the "list" array */
-        final String OWM_LIST = "all goods";
+        final String OWM_LIST ="all goods"; //"electroTools"; //"all goods"
 
         /* All temperatures are children of the "temp" object */
         final String OWM_NAME = "name";
