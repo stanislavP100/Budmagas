@@ -1,13 +1,15 @@
-package com.example.android.sunshine;
+package com.example.android.sunshine.Activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class ChildActivity extends AppCompatActivity {
+import com.example.android.sunshine.R;
+
+public class SantehnikaActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_santehnika);
     }
 }

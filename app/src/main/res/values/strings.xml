@@ -14,5 +14,28 @@
     <string name="first_text_5">Будівельні суміші</string>
     <string name="first_text_6">Сад, город</string>
 
+    <string name="vseDlaRemontu_first_button"> Ручний інструмент</string>
+    <string name="vseDlaRemontu_second_button"> Елементи кріплення</string>
+    <string name="vseDlaRemontu_third_button"> Плитка</string>
+
+    <string name="electroinstrument_first_button"> Болгарки</string>
+    <string name="electroinstrument_second_button"> Перфератори</string>
+    <string name="electroinstrument_third_button"> Шуруповерти</string>
+
+    <string name="bud_sumishi_first_button"> Цемент</string>
+    <string name="bud_sumishi_second_button"> Сатенгіпс</string>
+    <string name="bud_sumishi_third_button"> Клей</string>
+
+    <string name="instrumenty_first_button"> Mолотки</string>
+    <string name="instrumenty_second_button"> Зубила</string>
+    <string name="instrumenty_third_button"> Плоскогубці</string>
+
+    <string name="sad_gorod_first_button"> Лопати</string>
+    <string name="sad_gorod_second_button"> Граблі</string>
+    <string name="sad_gorod_third_button"> Добрива</string>
+
+    <string name="santehnica_first_button"> Змішувачі</string>
+    <string name="santehnica_second_button"> Унітази</string>
+    <string name="santehnica_third_button"> Крани</string>
 
 </resources>
