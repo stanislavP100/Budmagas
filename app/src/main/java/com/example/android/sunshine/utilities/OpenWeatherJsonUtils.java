@@ -17,20 +17,24 @@ package com.example.android.sunshine.utilities;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * Utility functions to handle OpenWeatherMap JSON data.
  */
 public final class OpenWeatherJsonUtils {
 
-
-    public static String[] getSimpleWeatherStringsFromJson(Context context, String forecastJsonStr)
+    public static String[] getSimpleWeatherStringsFromJson( String forecastJsonStr)
             throws JSONException {
 
         /* Weather information. Each day's forecast info is an element of the "list" array */
@@ -38,6 +42,9 @@ public final class OpenWeatherJsonUtils {
 
         /* All temperatures are children of the "temp" object */
         final String OWM_NAME = "name";
+        final String OWM_IMAGE = "image";
+
+
 
         /* Max temperature for the day */
         final String OWM_ID = "id";
@@ -50,13 +57,15 @@ public final class OpenWeatherJsonUtils {
 
         JSONObject allGoodsJson = new JSONObject(forecastJsonStr);
 
-     parsedWeatherData = new String[allGoodsJson.getJSONArray(OWM_LIST).length()];
+        parsedWeatherData = new String[allGoodsJson.getJSONArray(OWM_LIST).length()];
 
 
 
         for (int i = 0; i < allGoodsJson.getJSONArray(OWM_LIST).length(); i++) {
 
             String name;
+
+            String image;
 
             Long id;
 
@@ -65,6 +74,8 @@ public final class OpenWeatherJsonUtils {
 
             JSONObject oneGood = allGoodsJson.getJSONArray(OWM_LIST).getJSONObject(i);
 
+            image =oneGood.getString(OWM_IMAGE);
+
             name=oneGood.getString(OWM_NAME);
 
             id=oneGood.getLong(OWM_ID);
@@ -72,7 +83,7 @@ public final class OpenWeatherJsonUtils {
             price=oneGood.getDouble(OWM_PRICE);
 
 
-            parsedWeatherData[i] =id+" "+ name+" "+ price;
+            parsedWeatherData[i] =id+" "+ name+" "+ price+" "+image;
 
 
         }
@@ -81,5 +92,69 @@ public final class OpenWeatherJsonUtils {
         return parsedWeatherData;
     }
 
+    public static ArrayList<Product> getDetailsFromJson(String st)throws JSONException
+
+    {
+        ArrayList<Product> products=new ArrayList<>();
+
+        final String OWM_LIST ="all goods"; //"electroTools"; //"all goods"
+
+        /* All temperatures are children of the "temp" object */
+        final String OWM_NAME = "name";
+        final String OWM_IMAGE = "image";
+
+
+
+        /* Max temperature for the day */
+        final String OWM_ID = "id";
+        final String OWM_PRICE = "price";
+
+
+        JSONObject allGoodsJson = new JSONObject(st);
+
+
+
+        for (int i = 0; i < allGoodsJson.getJSONArray(OWM_LIST).length(); i++) {
+
+            Product tmp=new
+                    Product();
+
+            JSONObject oneGood = allGoodsJson.getJSONArray(OWM_LIST).getJSONObject(i);
+
+            tmp.setImage(oneGood.getString(OWM_IMAGE));
+
+            tmp.setName(oneGood.getString(OWM_NAME));
+
+            tmp.setId(oneGood.getLong(OWM_ID));
+
+            tmp.setPrice(oneGood.getDouble(OWM_PRICE));
+
+            tmp.setImageBitmap(getBitmap("https://chitadrita.herokuapp.com/get-image?image="+tmp.getImage()));
+
+
+            products.add(i,tmp);
+
+
+        }
+
+
+
+        return products;
+    }
+
+    public static Bitmap getBitmap(String url) {
+        try {
+            System.out.println(url);
+            InputStream is = (InputStream) new URL(url).getContent();
+
+            Bitmap d = BitmapFactory.decodeStream(is);
+            is.close();
+
+            return d;
+        } catch (Exception e) {
+
+            return null;
+        }
+    }
 
 }

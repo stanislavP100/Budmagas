@@ -8,6 +8,7 @@
     android:orientation="vertical">
 
     <Button
+        android:id="@+id/cement_button_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/bud_sumishi_first_button"
@@ -19,6 +20,7 @@
     </Button>
 
     <Button
+        android:id="@+id/satengips_button_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/bud_sumishi_second_button"
@@ -30,6 +32,7 @@
 
     </Button>
     <Button
+        android:id="@+id/kley_button_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/bud_sumishi_third_button"
