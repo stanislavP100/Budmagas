@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.first_page); //activity_main);
+        setContentView(R.layout. first_page); //activity_main);
 
         vseDlyaREmontu= findViewById(R.id.first_page_card_view_1);
         electroinstrument= findViewById(R.id.first_page_card_view_2);

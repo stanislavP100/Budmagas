@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.android.sunshine.Activity.SecondActivity.CementActivity;
+import com.example.android.sunshine.Activity.SecondActivity.SatengipsActivity;
 import com.example.android.sunshine.R;
 
 public class BudivelniSumishActivity extends AppCompatActivity {
@@ -32,7 +33,20 @@ public class BudivelniSumishActivity extends AppCompatActivity {
             }
         });
 
+        satengips.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent= new Intent(getBaseContext(), SatengipsActivity.class);
+                startActivity(intent);
+            }
+        });
 
-
+        kley.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent= new Intent(getBaseContext(), SatengipsActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

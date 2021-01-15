@@ -1,21 +1,17 @@
 package com.example.android.sunshine.utilities;
 
-import android.content.ClipData;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.support.annotation.NonNull;
-import android.util.Log;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.support.v7.widget.RecyclerView;
 
 import com.example.android.sunshine.R;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.NumberViewHolder> {
 
@@ -55,7 +51,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.NumberViewHolder> {
         NumberViewHolder viewHolder = new NumberViewHolder(view);
 
 
-        viewHolderCount++;
+      //  viewHolderCount++;
 
         return viewHolder;
     }
@@ -94,8 +90,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.NumberViewHolder> {
 
         void setDetails(ArrayList<Product> products, int p) {
             viewHolderIndex.setText(products.get(p).getName());
-            imageView.setImageBitmap(products.get(p).getImageBitmap());
-            //imageView.setImageResource(R.d);
+           // imageView.setImageBitmap();
+        //    imageView.setImageBitmap(products.get(p).getImageBitmap());
+
         }
 
 
