@@ -179,7 +179,10 @@ public final class OpenWeatherJsonUtils {
             //    tmp.setImageBitmap(getBitmap("https://chitadrita.herokuapp.com/get-image?image="+tmp.getImage()));
 
 
+
             images.add(i, tmp);
+
+
         }
 
         return images;

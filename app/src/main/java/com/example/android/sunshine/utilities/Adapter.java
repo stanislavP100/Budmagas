@@ -90,8 +90,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.NumberViewHolder> {
 
         void setDetails(ArrayList<Product> products, int p) {
             viewHolderIndex.setText(products.get(p).getName());
-           // imageView.setImageBitmap();
-        //    imageView.setImageBitmap(products.get(p).getImageBitmap());
+            imageView.setImageBitmap(products.get(p).getImageBitmap());
 
         }
 

@@ -3,34 +3,23 @@ package com.example.android.sunshine.Activity.SecondActivity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ProgressBar;
 
-import com.example.android.sunshine.MainActivity;
 import com.example.android.sunshine.R;
 import com.example.android.sunshine.utilities.Adapter;
 import com.example.android.sunshine.utilities.NetworkUtils;
 import com.example.android.sunshine.utilities.OpenWeatherJsonUtils;
 import com.example.android.sunshine.utilities.Product;
 
-import org.json.JSONException;
-
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -41,16 +30,15 @@ public class CementActivity extends AppCompatActivity {
 
     private Adapter mAdapter;
 
-
-    private ArrayList<Bitmap> productsImage=new ArrayList<>();
     private ArrayList<String> productsImageString=new ArrayList<>();
+
 
     private RecyclerView mNumbersList;
 
-    private Image image;
+    private int viewHolderIndex;
     private URL weatherRequestUrl;
 
-    ArrayList<Product> products=null;
+    ArrayList<Product> products=new ArrayList<>();
 
 
     @Override
@@ -58,53 +46,81 @@ public class CementActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cement);
 
-
-
         mNumbersList = findViewById(R.id.rv_numbers);
 
 
-        Observable<String> obString=  Observable.fromCallable(new Callable<String>() {
-            @Override public  String call(){
-                return getResponse();
-            }
+        Observable<String> obString=  Observable.fromCallable(() -> {
+
+
+            System.out.println(Thread.currentThread().getName()+ "##############");
+            return getResponse();
         });
 
 
-        obString.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<String>() {
-            @Override
-            public void onSubscribe(Disposable d) {
+        obString.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
 
-            }
+                (String st)->{
+                    System.out.println(st);
+                    products= OpenWeatherJsonUtils.getDetailsFromJson(st);
+                    productsImageString=OpenWeatherJsonUtils.getImageStringFromJson(st);
+                    mAdapter = new Adapter(CementActivity.this, products);
+                    mNumbersList.setAdapter(mAdapter);
 
-            @Override
-            public void onNext(String user) {
 
-                try {
-                    products= OpenWeatherJsonUtils.getDetailsFromJson(user);
-                    productsImageString=OpenWeatherJsonUtils.getImageStringFromJson(user);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                    final int[] ii = {0};
 
-                System.out.println(productsImageString.size());
+//
 
-                mAdapter = new Adapter(CementActivity.this, products);
-                mNumbersList.setAdapter(mAdapter);
+                    Observable<Bitmap>bn=Observable.create(s->{
 
-            }
+                        System.out.println(productsImageString.size());
 
-            @Override
-            public void onError(Throwable e) {
+                        for(String g : productsImageString)
 
-            }
+                            s.onNext(getBitmap("https://chitadrita.herokuapp.com/get-image?image="+g));
 
-            @Override
-            public void onComplete() {
+                    });
 
-            }
-        });
 
-        System.out.println(productsImageString.size());
+                bn.subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<Bitmap>() {
+                                       @Override
+                                       public void onSubscribe(@NonNull Disposable d) {
+
+                                       }
+
+                                       @Override
+                                       public void onNext(@NonNull Bitmap bitmap) {
+
+                                          products.get(ii[0]).setImageBitmap(bitmap);
+                                           mAdapter = new Adapter(CementActivity.this, products);
+                                           ii[0]++;
+                                           mNumbersList.setAdapter(mAdapter);
+                                       }
+
+                                       @Override
+                                       public void onError(@NonNull Throwable e) {
+
+                                           e.printStackTrace();
+
+                                       }
+
+                                       @Override
+                                       public void onComplete() {
+
+
+
+                                       }
+
+
+                                   }
+
+
+                        );
+
+
+                });
 
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(CementActivity.this);
@@ -112,7 +128,7 @@ public class CementActivity extends AppCompatActivity {
 
 
 
-    }
+   }
 
 
     public String getResponse()
@@ -139,38 +155,15 @@ public class CementActivity extends AppCompatActivity {
     }
 
 
-    private void loadWeatherData() {
-
-
-        URL weatherRequestUrl = NetworkUtils.buildUrl();
-
-        try {
-            String jsonWeatherResponse = NetworkUtils
-                    .getResponseFromHttpUrl(weatherRequestUrl); // json строка з сервера
-
-            System.out.println(jsonWeatherResponse);
-
-            products= OpenWeatherJsonUtils.getDetailsFromJson(jsonWeatherResponse); // готові продукти
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
-
-
-        mAdapter = new Adapter(CementActivity.this, products);
-        mNumbersList.setAdapter(mAdapter);
-    }
-
 
     public static Bitmap getBitmap(String url) {
         try {
-            System.out.println(url);
+
             InputStream is = (InputStream) new URL(url).getContent();
 
             Bitmap d = BitmapFactory.decodeStream(is);
-            // is.close();
 
+            // is.close();
             return d;
         } catch (Exception e) {
 
@@ -178,63 +171,5 @@ public class CementActivity extends AppCompatActivity {
         }
     }
 
-//
-//
-//    public class WeaterQueryTask extends AsyncTask<String, Void, ArrayList<Product> > {
-//
-//
-//        @Override
-//        protected ArrayList <Product> doInBackground(String... params) {
-//            /* If there's no zip code, there's nothing to look up. */
-//            if (params.length == 0) {
-//                return null;
-//            }
-//
-//
-//
-//
-//            ArrayList<Product> products=null; // сюда прилітатимуть продукти з сервера
-//
-//            URL weatherRequestUrl = NetworkUtils.buildUrl();
-//
-//            try {
-//                String jsonWeatherResponse = NetworkUtils
-//                        .getResponseFromHttpUrl(weatherRequestUrl); // json строка з сервера
-//
-//                products= OpenWeatherJsonUtils.getDetailsFromJson(jsonWeatherResponse); // готові продукти
-//
-//
-//
-//                return products;
-//
-//
-//
-//            } catch (Exception e) {
-//
-//                e.printStackTrace();
-//                return null;
-//            }
-//
-//        }
-//
-//        @Override
-//        protected void onPostExecute(ArrayList<Product> product) {
-//
-//
-//
-//            mNumbersList = findViewById(R.id.rv_numbers);
-//
-//            LinearLayoutManager layoutManager = new LinearLayoutManager(CementActivity.this);
-//            mNumbersList.setLayoutManager(layoutManager);
-//
-//            mAdapter = new Adapter(CementActivity.this, product);
-//            mNumbersList.setAdapter(mAdapter);
-//
-//
-//
-//
-//        }
-//
-//    }
 
 }
