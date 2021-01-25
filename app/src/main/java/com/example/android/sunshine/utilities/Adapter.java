@@ -1,7 +1,7 @@
 package com.example.android.sunshine.utilities;
 
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,31 +15,18 @@ import java.util.ArrayList;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.NumberViewHolder> {
 
-
-
-
-    private static final String TAG = Adapter.class.getSimpleName();
-
-    private static int viewHolderCount;
-
-    private Context context;
-
-    private ArrayList<Bitmap> bb;
-
     private int mNumberItems;
 
     private ArrayList<Product> products;
 
-    private String [] strings;
 
     public Adapter(Context context, ArrayList<Product> product) {
         mNumberItems = product.size();
-        this.context=context;
         this.products=product;
-        viewHolderCount = 0;
         //  bb=image;
     }
 
+    @NonNull
     @Override
     public NumberViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         Context context = viewGroup.getContext();
@@ -48,12 +35,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.NumberViewHolder> {
         boolean shouldAttachToParentImmediately = false;
 
         View view = inflater.inflate(layoutIdForListItem, viewGroup, shouldAttachToParentImmediately);
-        NumberViewHolder viewHolder = new NumberViewHolder(view);
 
-
-      //  viewHolderCount++;
-
-        return viewHolder;
+        return new NumberViewHolder(view);
     }
 
 
@@ -72,14 +55,14 @@ public class Adapter extends RecyclerView.Adapter<Adapter.NumberViewHolder> {
     }
 
 
-    class NumberViewHolder extends RecyclerView.ViewHolder {
+    static class NumberViewHolder extends RecyclerView.ViewHolder {
 
 
         TextView viewHolderIndex;
         ImageView imageView;
 
 
-        public NumberViewHolder(View itemView) {
+        NumberViewHolder(View itemView) {
             super(itemView);
 
             imageView= itemView.findViewById(R.id.my_image);

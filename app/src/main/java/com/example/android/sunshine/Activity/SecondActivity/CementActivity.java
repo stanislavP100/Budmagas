@@ -2,7 +2,6 @@ package com.example.android.sunshine.Activity.SecondActivity;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +13,7 @@ import com.example.android.sunshine.utilities.NetworkUtils;
 import com.example.android.sunshine.utilities.OpenWeatherJsonUtils;
 import com.example.android.sunshine.utilities.Product;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -35,10 +35,11 @@ public class CementActivity extends AppCompatActivity {
 
     private RecyclerView mNumbersList;
 
-    private int viewHolderIndex;
     private URL weatherRequestUrl;
 
     ArrayList<Product> products=new ArrayList<>();
+
+  static   Bitmap noImageBitmap ;
 
 
     @Override
@@ -48,6 +49,7 @@ public class CementActivity extends AppCompatActivity {
 
         mNumbersList = findViewById(R.id.rv_numbers);
 
+        noImageBitmap=BitmapFactory.decodeResource(getResources(),R.drawable.noimage2);
 
         Observable<String> obString=  Observable.fromCallable(() -> {
 
@@ -73,11 +75,11 @@ public class CementActivity extends AppCompatActivity {
 
                     Observable<Bitmap>bn=Observable.create(s->{
 
-                        System.out.println(productsImageString.size());
-
                         for(String g : productsImageString)
 
-                            s.onNext(getBitmap("https://chitadrita.herokuapp.com/get-image?image="+g));
+
+                                s.onNext(getBitmap("https://chitadrita.herokuapp.com/get-image?image=" + g));
+
 
                     });
 
@@ -94,9 +96,9 @@ public class CementActivity extends AppCompatActivity {
                                        public void onNext(@NonNull Bitmap bitmap) {
 
                                           products.get(ii[0]).setImageBitmap(bitmap);
-                                           mAdapter = new Adapter(CementActivity.this, products);
-                                           ii[0]++;
-                                           mNumbersList.setAdapter(mAdapter);
+                                          mAdapter.notifyDataSetChanged();
+                                          ii[0]++;
+
                                        }
 
                                        @Override
@@ -125,8 +127,15 @@ public class CementActivity extends AppCompatActivity {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(CementActivity.this);
         mNumbersList.setLayoutManager(layoutManager);
-
-
+        mAdapter = new Adapter(CementActivity.this, products);
+        mNumbersList.setAdapter(mAdapter);
+        mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+                                                 @Override
+                                                 public void onChanged() {
+                                                     super.onChanged();
+                                                 }
+                                             }
+        );
 
    }
 
@@ -156,18 +165,17 @@ public class CementActivity extends AppCompatActivity {
 
 
 
-    public static Bitmap getBitmap(String url) {
+    public static Bitmap getBitmap(String url) throws IOException {
         try {
 
             InputStream is = (InputStream) new URL(url).getContent();
 
-            Bitmap d = BitmapFactory.decodeStream(is);
 
-            // is.close();
-            return d;
+
+            return BitmapFactory.decodeStream(is);
         } catch (Exception e) {
 
-            return null;
+            return noImageBitmap;
         }
     }
 

@@ -14,7 +14,7 @@ public class Product {
 
     private Bitmap imageBitmap;
 
-    public Bitmap getImageBitmap() {
+    Bitmap getImageBitmap() {
         return imageBitmap;
     }
 
@@ -42,7 +42,7 @@ public class Product {
         return price;
     }
 
-    public void setPrice(Double price) {
+    void setPrice(Double price) {
         this.price = price;
     }
 
@@ -54,7 +54,7 @@ public class Product {
         this.image = image;
     }
 
-    public Product() {
+    Product() {
     }
 
     public Product(long id, String name, Double price, String image) {
